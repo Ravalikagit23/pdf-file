@@ -1,5 +1,6 @@
 package com.ravalikapdf.pdffile.controller;
 
+import com.ravalikapdf.pdffile.Service.Producer;
 import com.ravalikapdf.pdffile.daoclass.PdfDaoimpl;
 import com.ravalikapdf.pdffile.model.PdfFile;
 import com.ravalikapdf.pdffile.model.PdfInput;
@@ -17,12 +18,14 @@ import java.sql.SQLException;
 public class PdfController {
     @Value("${test.value}")
     private String testValue;
-
+    @Autowired
+    Producer producer;
     @Autowired
     private PdfDaoimpl pdfDaoimpl;
 
     @PostMapping
     public PdfFile createFile(@RequestBody PdfInput pdfInput) {
+        producer.sendMsgTopic(pdfInput);
         pdfDaoimpl.createFile(pdfInput);
 
         System.out.println(testValue);
